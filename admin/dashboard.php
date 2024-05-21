@@ -14,6 +14,7 @@ $showForm4 = isset($_GET['action']) && $_GET['action'] == 'editPost';
 $showForm5 = isset($_GET['action']) && $_GET['action'] == 'category';
 $showForm6 = isset($_GET['action']) && $_GET['action'] == 'modcategory';
 $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
+$showForm8 = isset($_GET['action']) && $_GET['action'] == 'dashboard';
 
 ?>
 <!DOCTYPE html>
@@ -62,6 +63,10 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
         <aside class="bg-white w-64 p-6 shadow-lg">
             <ul>
                 <li class="mb-4">
+                    <a href="?action=dashboard" class="text-primary hover:text-secondary block p-3 rounded-md flex justify-between items-center">
+                        <span><i class="fas fa-tachometer-alt mr-2"></i> Dashboard</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
                     <a href="#" onclick="toggleMenu('menuUsuarios')" class="text-primary hover:text-secondary block p-3 rounded-md flex justify-between items-center">
                         <span><i class="fas fa-users mr-2"></i> Users</span>
                         <i class="fas fa-chevron-down"></i>
@@ -131,10 +136,33 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
         </aside>
         <!-- Contenido Principal -->
         <main class="flex-1 p-6">
-            <?php if (!$showForm && !$showForm2 && !$showForm3 && !$showForm4 && !$showForm5 && !$showForm6 && !$showForm7): ?>
+        <?php if ((!$showForm && !$showForm2 && !$showForm3 && !$showForm4 && !$showForm5 && !$showForm6 && !$showForm7) || $showForm8): ?>
                 <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
                     <h2 class="text-2xl font-bold mb-6 text-primary">Welcome To The Dashboard</h2>
                     <p class="text-gray-700">Select an option from the side menu to begin.</p>
+                    <div class="mt-6">
+                        <?php
+                            $contacto = new Contacto();
+                            $totalPosts = $contacto->contarPosts();
+                            $totalCategories = $contacto->categorias();
+                            $totalUsers = $contacto->contarUsuarios();
+                        ?>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                                <h3 class="text-xl font-bold text-gray-800">Total Posts</h3>
+                                <p class="text-2xl text-primary font-semibold"><?php echo $totalPosts; ?></p>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                                <h3 class="text-xl font-bold text-gray-800">Total Categories</h3>
+                                <p class="text-2xl text-primary font-semibold"><?php echo $totalCategories; ?></p>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg shadow">
+                                <h3 class="text-xl font-bold text-gray-800">Total Users</h3>
+                                <p class="text-2xl text-primary font-semibold"><?php echo $totalUsers; ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             <?php endif; ?>
 
@@ -269,18 +297,18 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                         ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
                     });
                 </script>
-                <h2 class="text-2xl font-bold mb-6 text-primary">Crear Nuevo Post</h2>
+                <h2 class="text-2xl font-bold mb-6 text-primary">Create New Post</h2>
                 <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
                     <div class="mb-4">
-                        <label for="titulo" class="block text-primary font-bold mb-2">Título</label>
+                        <label for="titulo" class="block text-primary font-bold mb-2">Tittle</label>
                         <input type="text" id="titulo" name="titulo" class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                        <label for="contenido" class="block text-primary font-bold mb-2">Contenido</label>
+                        <label for="contenido" class="block text-primary font-bold mb-2">Content</label>
                         <textarea id="contenido" name="contenido" class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline h-40"></textarea>
                     </div>
                     <div class="mb-4">
-                        <label for="categoria" class="block text-primary font-bold mb-2">Categoría</label>
+                        <label for="categoria" class="block text-primary font-bold mb-2">Category</label>
                         <select id="categoria" name="categoria" class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline" required>
                             <option value="">Select a category</option>
                             <?php
@@ -293,7 +321,7 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                         </select>
                     </div>
                     <div class="mb-6">
-                        <label for="imagen" class="block text-primary font-bold mb-2">Imagen</label>
+                        <label for="imagen" class="block text-primary font-bold mb-2">Image</label>
                         <input type="file" id="imagen" name="imagen" class="shadow appearance-none border rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="flex items-center justify-between">
@@ -640,14 +668,14 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                         <div class="flex justify-between items-center mb-4">
                             <form method="GET" action="" class="flex items-center">
                                 <input type="hidden" name="action" value="modcategory">
-                                <label for="entries" class="text-sm text-gray-700 mr-2">Mostrar</label>
+                                <label for="entries" class="text-sm text-gray-700 mr-2">Show</label>
                                 <select name="per_page" id="entries" class="border border-gray-300 rounded px-2 py-1" onchange="this.form.submit()">
                                     <option value="5" <?php echo (isset($_GET['per_page']) && $_GET['per_page'] == 5) ? 'selected' : ''; ?>>5</option>
                                     <option value="10" <?php echo (isset($_GET['per_page']) && $_GET['per_page'] == 10) ? 'selected' : ''; ?>>10</option>
                                     <option value="15" <?php echo (isset($_GET['per_page']) && $_GET['per_page'] == 15) ? 'selected' : ''; ?>>15</option>
                                     <option value="20" <?php echo (isset($_GET['per_page']) && $_GET['per_page'] == 20) ? 'selected' : ''; ?>>20</option>
                                 </select>
-                                <span class="text-sm text-gray-700 ml-2">entradas</span>
+                                <span class="text-sm text-gray-700 ml-2">Entrance</span>
                             </form>
                             <form method="GET" action="" class="flex items-center">
                                 <input type="hidden" name="action" value="modcategory">
@@ -659,8 +687,8 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Categoría</th>
-                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Acciones</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Category</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -762,37 +790,45 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                             $result = $contacto->actualizarUsuario($id, $nombre, $password, $email);
                             echo "<div id='success-message' class='bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4' role='alert'>User updated correctly</div>";
 
+                            // Actualizar la sesión con el nuevo nombre de usuario
+                            $_SESSION['user'] = $nombre;
+
                             // Obtener nuevamente los datos del usuario después de la actualización
-                            $datos_usuario = $contacto->obtenerDatosUsuario($usuario_actual);
+                            $datos_usuario = $contacto->obtenerDatosUsuario($nombre);
                         } else {
                             // Obtener los datos del usuario actual
                             $datos_usuario = $contacto->obtenerDatosUsuario($usuario_actual);
                         }
 
-                        // Cargar los datos en el formulario
-                        $id = $datos_usuario['id'];
-                        $nombre = $datos_usuario['name'];
-                        $password = $datos_usuario['password'];
-                        $email = $datos_usuario['correo'];
+                        // Verificar que $datos_usuario no sea null
+                        if ($datos_usuario) {
+                            // Cargar los datos en el formulario
+                            $id = $datos_usuario['id'];
+                            $nombre = $datos_usuario['name'];
+                            $password = $datos_usuario['password'];
+                            $email = $datos_usuario['correo'];
 
-                        echo "<form method='POST'>
-                            <input type='hidden' name='id' value='$id'>
-                            <div class='mb-4'>
-                                <label id='usuario' class='block text-primary font-bold mb-2'>Name</label>
-                                <input type='text' name='names' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='$nombre' required>
-                            </div>
-                            <div class='mb-4'>
-                                <label id='contra' class='block text-primary font-bold mb-2'>Password</label>
-                                <input type='password' name='password' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='$password' required>
-                            </div>
-                            <div class='mb-4'>
-                                <label id='email' class='block text-primary font-bold mb-2'>Email</label>
-                                <input type='text' name='correo' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='$email' required>
-                            </div>
-                            <div class='flex items-center justify-between'>
-                                <button type='submit' name='update' class='bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Update</button>
-                            </div>
-                        </form>";
+                            echo "<form method='POST'>
+                                <input type='hidden' name='id' value='$id'>
+                                <div class='mb-4'>
+                                    <label id='usuario' class='block text-primary font-bold mb-2'>Name</label>
+                                    <input type='text' name='names' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='$nombre' required>
+                                </div>
+                                <div class='mb-4'>
+                                    <label id='contra' class='block text-primary font-bold mb-2'>Password</label>
+                                    <input type='password' name='password' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='$password' required>
+                                </div>
+                                <div class='mb-4'>
+                                    <label id='email' class='block text-primary font-bold mb-2'>Email</label>
+                                    <input type='text' name='correo' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='$email' required>
+                                </div>
+                                <div class='flex items-center justify-between'>
+                                    <button type='submit' name='update' class='bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Update</button>
+                                </div>
+                            </form>";
+                        } else {
+                            echo "<div class='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4' role='alert'>User data not found</div>";
+                        }
                     ?>
                 </div>
 
@@ -806,6 +842,7 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                     }, 5000);
                 </script>
             <?php endif; ?>
+
         </main>
     </div>
     <footer class="bg-primary text-white p-4 mt-auto">

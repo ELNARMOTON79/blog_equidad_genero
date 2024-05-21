@@ -60,6 +60,18 @@
             return $total['total'];
         }
 
+        public function categorias()
+        {
+            $this->sentencia = "SELECT COUNT(*) as totalCategories FROM category";
+            $result = $this->obtener_sentencia();
+            if ($result) {
+                $row = $result->fetch_assoc(); // Asumiendo que estás usando MySQLi
+                return $row['totalCategories'];
+            } else {
+                return 0;
+            }
+        }
+
         public function contarCategorias($search = '')
         {
             $this->sentencia = "SELECT COUNT(*) as total FROM category WHERE category LIKE '%$search%'";
@@ -127,6 +139,14 @@
             $this->sentencia = "SELECT * FROM users";
             $result = $this->obtener_sentencia();
             return $result;
+        }
+
+        public function contarUsuarios()
+        {
+            $this->sentencia = "SELECT COUNT(*) as total FROM users";
+            $result = $this->obtener_sentencia();
+            $total = $result->fetch_assoc();
+            return $total['total'];
         }
 
         public function obtenerDatosUsuario($usuario_actual) {
