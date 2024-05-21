@@ -8,7 +8,7 @@
     class Contacto extends Conexion {
         // buscar 5 po
         public function buscarPostReciente() {
-            $this->sentencia = "SELECT * FROM posts ORDER BY date DESC LIMIT 2";
+            $this->sentencia = "SELECT * FROM posts ORDER BY date DESC LIMIT 3";
             $result = $this->obtener_sentencia();
             return $result;
         }

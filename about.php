@@ -15,9 +15,8 @@
             <div class='container mx-auto px-4 py-6'>
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden">
                     <div class="p-4">
-                        <h2 class="text-3xl font-bold">Creative Equity</h2>
-                        <p class="text-gray-700 mb-4">Creative Equity is a nonprofit organization that seeks to promote gender equity in the creative industry.</p>
-                        <p class="text-gray-700">Our goal is to foster equal opportunities for all individuals, regardless of their gender, race, sexual orientation, religion, or any other personal characteristic.</p>
+                        <h2 class="text-3xl font-bold" style="text-align:center">Creative Equity</h2>
+                        <p class="text-gray-700 mb-4" style="text-align:justify">Creative Equity is a nonprofit organization that seeks to promote gender equity in the creative industry. Our goal is to foster equal opportunities for all individuals, regardless of their gender, race, sexual orientation, religion, or any other personal characteristic.</p>
                     </div>
                 </div>
             </div>
