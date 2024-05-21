@@ -162,7 +162,7 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                             </select>
                         </div>
                         <div class="flex items-center justify-between">
-                            <button type="submit" name="register" class="bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Crear</button>
+                            <button type="submit" name="register" class="bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Create</button>
                         </div>
                     </form>
                 </div>
@@ -176,7 +176,7 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
 
                     $contacto = new Contacto();
                     $result = $contacto->crearUsuario($nombre, $password, $user, $email);
-                    echo "<div id='success-message' class='bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4' role='alert'>Usuario creado correctamente</div>";
+                    echo "<div id='success-message' class='bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4' role='alert'>User successfully created</div>";
                 }
                 ?>
                 <script>
