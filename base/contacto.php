@@ -129,8 +129,8 @@
             return $result;
         }
 
-        public function obtenerDatosUsuario($username) {
-            $this->sentencia = "SELECT id, name, password FROM users WHERE name = '$username'";
+        public function obtenerDatosUsuario($usuario_actual) {
+            $this->sentencia = "SELECT id, name, password, correo FROM users WHERE name = '$usuario_actual'";
             $result = $this->obtener_sentencia();
             if ($result->num_rows > 0) {
                 return $result->fetch_assoc();
@@ -189,8 +189,8 @@
         }
 
         //actualizar usuario
-        public function actualizarUsuario($id, $nombre, $password) {
-            $this->sentencia = "UPDATE users SET name = '$nombre', password = '$password' WHERE id = $id";
+        public function actualizarUsuario($id, $nombre, $password, $email) {
+            $this->sentencia = "UPDATE users SET name = '$nombre', password = '$password', correo = '$email' WHERE id = $id";
             $this->ejecutar_sentencia();
         }
     }

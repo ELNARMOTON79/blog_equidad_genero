@@ -101,7 +101,7 @@ INSERT INTO `posts` (`id`, `admin_id`, `name`, `title`, `content`, `category`, `
 --
 
 CREATE TABLE `users` (
-  `id` int(100) NOT NULL,
+  `id` int(100) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   `password` varchar(50) NOT NULL,
   `profile` varchar(255) NOT NULL,

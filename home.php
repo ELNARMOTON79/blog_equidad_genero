@@ -68,7 +68,6 @@ session_start();
             echo "<h2 class='text-3xl font-bold'>" . $row['title'] . "</h2>";
             echo "<p class='text-gray-700 mb-4'>" . $row['category'] . "</p>";
             echo "<p class='text-gray-700 mb-4'>" . $row['name'] . "</p>";
-            echo "<p class='text-sm text-gray-500'>" . $row['time'] . "</p>"; // Mostrando el campo time
             echo "<p class='text-gray-700'>" . $row['content'] . "</p>";
             echo "</div>";
             echo "</div>";
@@ -87,7 +86,6 @@ session_start();
                     echo "<div class='p-4'>";
                     echo "<h2 class='text-xl font-bold'>" . $row['title'] . "</h2>";
                     echo "<p class='text-gray-700 mb-4'>" . $row['name'] . "</p>";
-                    echo "<p class='text-sm text-gray-500'>" . $row['time'] . "</p>"; // Mostrando el campo time
                     echo "<a href='publicaciones.php?id=" . $row['id'] . "'><button class='mt-2 bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-700 focus:outline-none'>Leer Más</button></a>";
                     echo "</div>";
                     echo "</div>";

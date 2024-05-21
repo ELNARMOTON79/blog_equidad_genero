@@ -518,10 +518,10 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                                             <input type="hidden" name="page" value="'.($page-1).'">
                                             <input type="hidden" name="per_page" value="'.$per_page.'">
                                             <input type="hidden" name="search" value="'.htmlspecialchars($search).'">
-                                            <button type="submit" class="text-primary hover:text-primary-dark">← Anterior</button>
+                                            <button type="submit" class="text-primary hover:text-primary-dark">← Back</button>
                                         </form>';
                                 } else {
-                                    echo '<span class="text-gray-400">← Anterior</span>';
+                                    echo '<span class="text-gray-400">← Back</span>';
                                 }
 
                                 if ($page < $total_pages) {
@@ -530,10 +530,10 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                                             <input type="hidden" name="page" value="'.($page+1).'">
                                             <input type="hidden" name="per_page" value="'.$per_page.'">
                                             <input type="hidden" name="search" value="'.htmlspecialchars($search).'">
-                                            <button type="submit" class="text-primary hover:text-primary-dark">Siguiente →</button>
+                                            <button type="submit" class="text-primary hover:text-primary-dark">Next →</button>
                                         </form>';
                                 } else {
-                                    echo '<span class="text-gray-400">Siguiente →</span>';
+                                    echo '<span class="text-gray-400">Next →</span>';
                                 }
                             ?>
                         </div>
@@ -715,10 +715,10 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                                             <input type="hidden" name="page" value="'.($page-1).'">
                                             <input type="hidden" name="per_page" value="'.$per_page.'">
                                             <input type="hidden" name="search" value="'.htmlspecialchars($search).'">
-                                            <button type="submit" class="text-primary hover:text-primary-dark">← Anterior</button>
+                                            <button type="submit" class="text-primary hover:text-primary-dark">← Back</button>
                                         </form>';
                                 } else {
-                                    echo '<span class="text-gray-400">← Anterior</span>';
+                                    echo '<span class="text-gray-400">← Back</span>';
                                 }
 
                                 if ($page < $total_pages) {
@@ -727,10 +727,10 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                                             <input type="hidden" name="page" value="'.($page+1).'">
                                             <input type="hidden" name="per_page" value="'.$per_page.'">
                                             <input type="hidden" name="search" value="'.htmlspecialchars($search).'">
-                                            <button type="submit" class="text-primary hover:text-primary-dark">Siguiente →</button>
+                                            <button type="submit" class="text-primary hover:text-primary-dark">Next →</button>
                                         </form>';
                                 } else {
-                                    echo '<span class="text-gray-400">Siguiente →</span>';
+                                    echo '<span class="text-gray-400">Next →</span>';
                                 }
                             ?>
                         </div>
@@ -743,7 +743,6 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                     }
                 </script>
             <?php endif; ?>
-
             <?php if ($showForm7): ?>
                 <div id="modifyuser" class="bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto">
                     <h2 class="text-2xl font-bold mb-6 text-primary">Settings</h2>
@@ -752,22 +751,29 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
 
                         // Obtener los datos del usuario actual
                         $usuario_actual = $_SESSION['user'];
-                        $datos_usuario = $contacto->obtenerDatosUsuario($usuario_actual);
 
                         // Si se ha enviado el formulario de actualización, actualizamos los datos
                         if (isset($_POST["update"])) {
                             $id = $_POST["id"];
                             $nombre = isset($_POST["names"]) ? $_POST["names"] : '';
                             $password = isset($_POST["password"]) ? $_POST["password"] : '';
+                            $email = isset($_POST["correo"]) ? $_POST["correo"] : '';
 
-                            $result = $contacto->actualizarUsuario($id, $nombre, $password);
-                            echo "<div id='success-message' class='bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4' role='alert'>Usuario actualizado correctamente</div>";
+                            $result = $contacto->actualizarUsuario($id, $nombre, $password, $email);
+                            echo "<div id='success-message' class='bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4' role='alert'>User updated correctly</div>";
+
+                            // Obtener nuevamente los datos del usuario después de la actualización
+                            $datos_usuario = $contacto->obtenerDatosUsuario($usuario_actual);
+                        } else {
+                            // Obtener los datos del usuario actual
+                            $datos_usuario = $contacto->obtenerDatosUsuario($usuario_actual);
                         }
 
                         // Cargar los datos en el formulario
                         $id = $datos_usuario['id'];
                         $nombre = $datos_usuario['name'];
                         $password = $datos_usuario['password'];
+                        $email = $datos_usuario['correo'];
 
                         echo "<form method='POST'>
                             <input type='hidden' name='id' value='$id'>
@@ -778,6 +784,10 @@ $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
                             <div class='mb-4'>
                                 <label id='contra' class='block text-primary font-bold mb-2'>Password</label>
                                 <input type='password' name='password' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='$password' required>
+                            </div>
+                            <div class='mb-4'>
+                                <label id='email' class='block text-primary font-bold mb-2'>Email</label>
+                                <input type='text' name='correo' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='$email' required>
                             </div>
                             <div class='flex items-center justify-between'>
                                 <button type='submit' name='update' class='bg-primary text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>Update</button>
