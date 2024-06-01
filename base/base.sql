@@ -1,6 +1,6 @@
-CREATE DATABASE blog;
+CREATE DATABASE blog_equidad;
 
-USE blog;
+USE blog_equidad;
 
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
@@ -101,7 +101,7 @@ INSERT INTO `posts` (`id`, `admin_id`, `name`, `title`, `content`, `category`, `
 --
 
 CREATE TABLE `users` (
-  `id` int(100) NOT NULL AUTO_INCREMENT,
+  `id` int(100) NOT NULL,
   `name` varchar(20) NOT NULL,
   `password` varchar(50) NOT NULL,
   `profile` varchar(255) NOT NULL,

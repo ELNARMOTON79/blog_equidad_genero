@@ -7,10 +7,10 @@
 		private $host='localhost';
 		private $usuario='root';
 		private $password = '';
-		private $base='blog';
+		private $base='blog_equidad';
 		public $sentencia;
 		private $rows =array();
-		private $conexion;	
+		private $conexion;
 
 		private function abrir_conexion(){
 			$this->conexion = new mysqli($this->host,$this->usuario,$this->password,$this->base);

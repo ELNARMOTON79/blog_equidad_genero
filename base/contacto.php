@@ -213,5 +213,7 @@
             $this->sentencia = "UPDATE users SET name = '$nombre', password = '$password', correo = '$email' WHERE id = $id";
             $this->ejecutar_sentencia();
         }
+
     }
+
 ?>

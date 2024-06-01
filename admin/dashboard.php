@@ -15,6 +15,7 @@ $showForm5 = isset($_GET['action']) && $_GET['action'] == 'category';
 $showForm6 = isset($_GET['action']) && $_GET['action'] == 'modcategory';
 $showForm7 = isset($_GET['action']) && $_GET['action'] == 'settings';
 $showForm8 = isset($_GET['action']) && $_GET['action'] == 'dashboard';
+$showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
 
 ?>
 <!DOCTYPE html>
@@ -55,7 +56,9 @@ $showForm8 = isset($_GET['action']) && $_GET['action'] == 'dashboard';
 <body class="bg-tertiary min-h-screen flex flex-col">
     <header class="bg-primary text-white p-4 flex justify-between items-center fixed w-full z-10">
         <div>
-            <h1 class="text-3xl font-bold">Welcome Admin</h1>
+        <?php
+        echo '<h1 class="text-3xl font-bold">Welcome ^'.$_SESSION['user'].'^</h1>';
+        ?>
         </div>
     </header>
     <div class="flex flex-1 pt-20">
@@ -72,6 +75,11 @@ $showForm8 = isset($_GET['action']) && $_GET['action'] == 'dashboard';
                         <i class="fas fa-chevron-down"></i>
                     </a>
                     <ul id="menuUsuarios" class="hidden pl-4">
+                        <li class="mb-2">
+                            <a href="?action=userList" class="text-primary hover:text-secondary block p-2 rounded-md">
+                                <i class="fas fa-users mr-2"></i> User list
+                            </a>
+                        </li>
                         <li class="mb-2">
                             <a href="?action=createUser" class="text-primary hover:text-secondary block p-2 rounded-md">
                                 <i class="fas fa-user-plus mr-2"></i> Create User
@@ -136,7 +144,7 @@ $showForm8 = isset($_GET['action']) && $_GET['action'] == 'dashboard';
         </aside>
         <!-- Contenido Principal -->
         <main class="flex-1 p-6">
-        <?php if ((!$showForm && !$showForm2 && !$showForm3 && !$showForm4 && !$showForm5 && !$showForm6 && !$showForm7) || $showForm8): ?>
+        <?php if ((!$showForm && !$showForm2 && !$showForm3 && !$showForm4 && !$showForm5 && !$showForm6 && !$showForm7 && !$showForm9) || $showForm8): ?>
                 <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
                     <h2 class="text-2xl font-bold mb-6 text-primary">Welcome To The Dashboard</h2>
                     <p class="text-gray-700">Select an option from the side menu to begin.</p>
@@ -842,7 +850,37 @@ $showForm8 = isset($_GET['action']) && $_GET['action'] == 'dashboard';
                     }, 5000);
                 </script>
             <?php endif; ?>
+            <?php if($showForm9): ?>
+                <section>
+                <h2 class="text-2xl mb-4">Lista de Usuarios</h2>
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th class="py-2">Nombre</th>
+                            <th class="py-2">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $contacto = new Contacto();
+                            $result = $contacto->mostrarUsuarios();
 
+                            // Verificar si hay resultados
+                            if ($result && mysqli_num_rows($result) > 0) {
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "<tr>";
+                                    echo "<td class='py-2 text-center'>" . $row['name'] . "</td>";
+                                    echo "<td class='py-2 text-center'>" . $row['correo'] . "</td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='3' class='py-2'>No se encontraron usuarios.</td></tr>";
+                            }
+                        ?>
+                    </tbody>
+                </table>
+            </section>
+            <?php endif; ?> 
         </main>
     </div>
     <footer class="bg-primary text-white p-4 mt-auto">
