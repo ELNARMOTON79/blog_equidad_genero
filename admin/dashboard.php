@@ -57,7 +57,7 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
     <header class="bg-primary text-white p-4 flex justify-between items-center fixed w-full z-10">
         <div>
         <?php
-        echo '<h1 class="text-3xl font-bold">Welcome ^'.$_SESSION['user'].'^</h1>';
+        echo '<h1 class="text-3xl font-bold">Welcome, <span>'.$_SESSION['user'].'</span></h1>';
         ?>
         </div>
     </header>
@@ -498,6 +498,7 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
                                 <tr>
                                     <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Título</th>
                                     <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Categoría</th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Fecha</th>
                                     <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Acciones</th>
                                 </tr>
                             </thead>
@@ -521,6 +522,7 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
                                         <tr id='row".$row['id']."'>
                                             <td class='px-5 py-5 border-b border-gray-200 bg-white text-sm'>".$row['title']."</td>
                                             <td class='px-5 py-5 border-b border-gray-200 bg-white text-sm'>".$row['category']."</td>
+                                            <td class='px-5 py-5 border-b border-gray-200 bg-white text-sm'>".$row['date']."</td>
                                             <td class='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
                                                 <form method='POST' action='' style='display:inline;'>
                                                     <input type='hidden' name='action2' value='editpost'>
