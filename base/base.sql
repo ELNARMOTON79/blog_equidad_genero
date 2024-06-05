@@ -101,7 +101,7 @@ INSERT INTO `posts` (`id`, `admin_id`, `name`, `title`, `content`, `category`, `
 --
 
 CREATE TABLE `users` (
-  `id` int(100) NOT NULL,
+  `id` int(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `name` varchar(20) NOT NULL,
   `password` varchar(50) NOT NULL,
   `profile` varchar(255) NOT NULL,
@@ -137,25 +137,25 @@ ALTER TABLE `posts`
 --
 -- Indices de la tabla `users`
 --
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+-- ALTER TABLE `users`
+--   ADD PRIMARY KEY (`id`);
 
---
--- AUTO_INCREMENT de las tablas volcadas
---
+-- --
+-- -- AUTO_INCREMENT de las tablas volcadas
+-- --
 
---
--- AUTO_INCREMENT de la tabla `category`
---
-ALTER TABLE `category`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+-- --
+-- -- AUTO_INCREMENT de la tabla `category`
+-- --
+-- ALTER TABLE `category`
+--   MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
---
--- AUTO_INCREMENT de la tabla `posts`
---
-ALTER TABLE `posts`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
-COMMIT;
+-- --
+-- -- AUTO_INCREMENT de la tabla `posts`
+-- --
+-- ALTER TABLE `posts`
+--   MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -57,7 +57,7 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
     <header class="bg-primary text-white p-4 flex justify-between items-center fixed w-full z-10">
         <div>
         <?php
-        echo '<h1 class="text-3xl font-bold">Welcome, <span>'.$_SESSION['user'].'</span></h1>';
+        echo '<h1 class="text-3xl font-bold">Welcome, <span class="text-black">'.$_SESSION['user'].'</span></h1>';
         ?>
         </div>
     </header>
@@ -852,37 +852,60 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
                     }, 5000);
                 </script>
             <?php endif; ?>
-            <?php if($showForm9): ?>
+            <?php if ($showForm9): ?>
                 <section>
-                <h2 class="text-2xl mb-4">Lista de Usuarios</h2>
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr>
-                            <th class="py-2">Nombre</th>
-                            <th class="py-2">Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            $contacto = new Contacto();
-                            $result = $contacto->mostrarUsuarios();
+                    <h2 class="text-2xl mb-4">Lista de Usuarios</h2>
+                    <?php
+                    // Configuración de la paginación
+                    $conexion = new Conexion();
+                    $conexion->sentencia = "SELECT COUNT(*) as total FROM users";
+                    $result = $conexion->obtener_sentencia();
+                    $totalUsuarios = mysqli_fetch_assoc($result)['total'];
+                    $usuariosPorPagina = 5;
+                    $totalPaginas = ceil($totalUsuarios / $usuariosPorPagina);
 
-                            // Verificar si hay resultados
-                            if ($result && mysqli_num_rows($result) > 0) {
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td class='py-2 text-center'>" . $row['name'] . "</td>";
-                                    echo "<td class='py-2 text-center'>" . $row['correo'] . "</td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='3' class='py-2'>No se encontraron usuarios.</td></tr>";
-                            }
-                        ?>
-                    </tbody>
-                </table>
-            </section>
-            <?php endif; ?> 
+                    // Obtener la página actual de la URL, si no existe será la página 1
+                    $paginaActual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+                    if ($paginaActual < 1) $paginaActual = 1;
+                    if ($paginaActual > $totalPaginas) $paginaActual = $totalPaginas;
+
+                    // Calcular el offset
+                    $offset = ($paginaActual - 1) * $usuariosPorPagina;
+
+                    // Obtener los usuarios para la página actual
+                    $conexion->sentencia = "SELECT name, correo FROM users LIMIT $usuariosPorPagina OFFSET $offset";
+                    $result = $conexion->obtener_sentencia();
+
+                    if ($result && mysqli_num_rows($result) > 0): ?>
+                        <table class="min-w-full bg-white border border-gray-200">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="py-2 text-center border border-gray-200 font-bold">Nombre</th>
+                                    <th class="py-2 text-center border border-gray-200 font-bold">Correo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                                    <tr>
+                                        <td class='py-2 text-center border border-gray-200'><?php echo $row['name']; ?></td>
+                                        <td class='py-2 text-center border border-gray-200'><?php echo $row['correo']; ?></td>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                        <div class="mt-4">
+                            <?php if ($paginaActual > 1): ?>
+                                <a href="?action=userList&pagina=<?php echo $paginaActual - 1; ?>" class="px-4 py-2 bg-gray-300 text-black rounded">Anterior</a>
+                            <?php endif; ?>
+                            <?php if ($paginaActual < $totalPaginas): ?>
+                                <a href="?action=userList&pagina=<?php echo $paginaActual + 1; ?>" class="px-4 py-2 bg-gray-300 text-black rounded">Siguiente</a>
+                            <?php endif; ?>
+                        </div>
+                    <?php else: ?>
+                        <p class="py-2">No se encontraron usuarios.</p>
+                    <?php endif; ?>
+                </section>
+        <?php endif; ?>
         </main>
     </div>
     <footer class="bg-primary text-white p-4 mt-auto">

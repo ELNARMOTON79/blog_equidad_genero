@@ -59,27 +59,34 @@
             <button type="submit" name="log_in" class="w-full py-3 px-4 bg-primary text-white font-bold rounded-md shadow-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-75">Login</button>
         </form>
         <?php
-            include ("../base/contacto.php");
-            if (isset($_POST["log_in"])) {
-                $user = $_POST["user"];
-                $password = $_POST["password"];
-                $terms = isset($_POST["terms"]) ? $_POST["terms"] : null;
+        include ("../base/contacto.php");
 
-                if (!$terms) {
-                    echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>You must accept the terms and conditions</div>";
+        if (isset($_POST["log_in"])) {
+            $user = $_POST["user"];
+            $password = $_POST["password"];
+            $terms = isset($_POST["terms"]) ? $_POST["terms"] : null;
+
+            if (!$terms) {
+                echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>You must accept the terms and conditions</div>";
+            } else {
+                $contacto = new Contacto();
+                $result = $contacto->login2($user);
+
+                if ($result === null) {
+                    echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>Incorrect username or password</div>";
                 } else {
-                    $contacto = new Contacto();
-                    $result = $contacto->login($user, $password);
-                    if ($result === null) {
-                        echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>Incorrect username or password</div>";
-                    } else {
+                    $passwordHash = $result['password'];
+                    if (password_verify($password, $passwordHash)) {
                         $_SESSION['user'] = $user;  // Guardar el nombre de usuario en la sesión
-                        $_SESSION['type_user'] = $result; // Guardar el tipo de usuario en la sesión
+                        $_SESSION['type_user'] = $result['type_user']; // Guardar el tipo de usuario en la sesión
                         header("Location: ../home.php");
                         exit();  // Asegurar que el script se detenga después de la redirección
+                    } else {
+                        echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>Incorrect username or password</div>";
                     }
                 }
             }
+        }
         ?>
     </div>
 </body>

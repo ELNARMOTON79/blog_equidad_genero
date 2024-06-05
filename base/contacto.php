@@ -6,6 +6,15 @@
     include ("conexion.php");
 
     class Contacto extends Conexion {
+        private $conexion;
+        private $error;
+
+        public function __construct() {
+            $this->conexion = new mysqli('localhost', 'root', '', 'blog_equidad');
+            if ($this->conexion->connect_error) {
+                die("Error de conexión: " . $this->conexion->connect_error);
+            }
+        }
         // buscar 5 po
         public function buscarPostReciente() {
             $this->sentencia = "SELECT * FROM posts ORDER BY date DESC LIMIT 3";
@@ -130,7 +139,8 @@
 
         // crear usuario
         public function crearUsuario($nombre, $password, $user, $email) {
-            $this->sentencia = "INSERT INTO users (name, password, type_user, correo) VALUES ('$nombre', '$password', '$user', '$email')";
+            $passwordEnc = password_hash($password, PASSWORD_BCRYPT, ["cost"=>10]);
+            $this->sentencia = "INSERT INTO users (name, password, type_user, correo) VALUES ('$nombre', '$passwordEnc', '$user', '$email')";
             return $this->ejecutar_sentencia();
         }
 
@@ -213,7 +223,27 @@
             $this->sentencia = "UPDATE users SET name = '$nombre', password = '$password', correo = '$email' WHERE id = $id";
             $this->ejecutar_sentencia();
         }
+        
 
+        // Login mejorada con verifiación de haseo en contraseña
+        public function login2($user) {
+            $this->sentencia = "SELECT password, type_user FROM users WHERE name = ?";
+            $stmt = $this->conexion->prepare($this->sentencia);
+            $stmt->bind_param("s", $user);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result === false) {
+                error_log("Error en la consulta SQL: " . $this->conexion->error);
+                return null;
+            }
+
+            if ($result->num_rows > 0) {
+                return $result->fetch_assoc();
+            } else {
+                return null;
+            }
+        }
     }
 
 ?>
