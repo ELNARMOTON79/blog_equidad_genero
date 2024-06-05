@@ -242,16 +242,18 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
                                 $contacto = new Contacto();
                                 $result = $contacto->mostrarUsuarios();
                                 while ($row = $result->fetch_assoc()) {
-                                    echo "<tr id='usuario-".$row['id']."'>";
-                                    echo "<td class='py-2 px-4 border-b border-primary text-primary'>".$row['name']."</td>";
-                                    echo "<td class='py-2 px-4 border-b border-primary text-primary'>".($row['type_user'] == 0 ? 'Administrador' : 'Usuario')."</td>";
-                                    echo "<td class='py-2 px-4 border-b border-primary text-primary'>
-                                            <form method='POST' target='deleteFrame' onsubmit='return confirmDelete(".$row['id'].")'>
-                                                <input type='hidden' name='id_usuario' value='".$row['id']."'>
-                                                <button type='submit' name='delete_user' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Delete</button>
-                                            </form>
-                                        </td>";
-                                    echo "</tr>";
+                                    if($row['name'] != $_SESSION['user']) {
+                                        echo "<tr id='usuario-".$row['id']."'>";
+                                        echo "<td class='py-2 px-4 border-b border-primary text-primary'>".$row['name']."</td>";
+                                        echo "<td class='py-2 px-4 border-b border-primary text-primary'>".($row['type_user'] == 0 ? 'Administrador' : 'Usuario')."</td>";
+                                        echo "<td class='py-2 px-4 border-b border-primary text-primary'>
+                                                <form method='POST' target='deleteFrame' onsubmit='return confirmDelete(".$row['id'].")'>
+                                                    <input type='hidden' name='id_usuario' value='".$row['id']."'>
+                                                    <button type='submit' name='delete_user' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Delete</button>
+                                                </form>
+                                            </td>";
+                                        echo "</tr>";
+                                    }
                                 }
                             ?>
                         </tbody>
