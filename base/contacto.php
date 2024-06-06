@@ -225,6 +225,9 @@
         }
         
 
+        // Funciones mejoradas 
+
+
         // Login mejorada con verifiación de haseo en contraseña
         public function login2($user) {
             $this->sentencia = "SELECT password, type_user FROM users WHERE name = ?";
@@ -243,6 +246,40 @@
             } else {
                 return null;
             }
+        }
+
+        public function forgotPassword2($email) {
+            $this->sentencia = "SELECT id, name FROM users WHERE email = ?";
+            $stmt = $this->conexion->prepare($this->sentencia);
+            if ($stmt === false) {
+                error_log("Error en la preparación de la sentencia: " . $this->conexion->error);
+                return null;
+            }
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            if ($result === false) {
+                error_log("Error en la consulta SQL: " . $this->conexion->error);
+                return null;
+            }
+    
+            if ($result->num_rows > 0) {
+                return $result->fetch_assoc();
+            } else {
+                return null;
+            }
+        }
+    
+        public function insertarCodigo2($codigo, $userId) {
+            $this->sentencia = "UPDATE users SET reset_code = ? WHERE id = ?";
+            $stmt = $this->conexion->prepare($this->sentencia);
+            if ($stmt === false) {
+                error_log("Error en la preparación de la sentencia: " . $this->conexion->error);
+                return false;
+            }
+            $stmt->bind_param("si", $codigo, $userId);
+            return $stmt->execute();
         }
     }
 

@@ -48,30 +48,30 @@ include ("codegen.php");
             <button type="submit" name="forgot" class="w-full py-3 px-4 bg-primary text-white font-bold rounded-md shadow-md hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-75">Send</button>
         </form>
         <?php
-        if (isset($_POST['forgot'])) {
-            $email = $_POST['email'];
-
-            // Validar formato de correo electrónico
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>Invalid email format</div>";
-            } else {
-                $contacto = new Contacto();
-                $usuario = $contacto->forgotPassword($email);
-
-                if ($usuario === null) {
-                    echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>Incorrect email</div>";
+            if (isset($_POST['forgot'])) {
+                $email = $_POST['email'];
+            
+                // Validar formato de correo electrónico
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>Invalid email format</div>";
                 } else {
-                    $codigo = generarCodigoAleatorio();
-                    if ($contacto->insertarCodigo($codigo, $usuario['id'])) {
-                        echo "<div class='error-message mt-4 p-3 bg-green-100 text-green-700 border border-green-400 rounded-md'>Recovery link sent to your email</div>";
-                        $nombreDeUsuario = $usuario['name'];
-                        include ("sendmail.php");
+                    $contacto = new Contacto();
+                    $usuario = $contacto->forgotPassword($email);
+            
+                    if ($usuario === null) {
+                        echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>The email address does not exist</div>";
                     } else {
-                        echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>Error inserting the code</div>";
+                        $codigo = generarCodigoAleatorio();
+                        if ($contacto->insertarCodigo($codigo, $usuario['id'])) {
+                            echo "<div class='success-message mt-4 p-3 bg-green-100 text-green-700 border border-green-400 rounded-md'>Recovery link sent to your email</div>";
+                            $nombreDeUsuario = $usuario['name'];
+                            include ("sendmail.php");
+                        } else {
+                            echo "<div class='error-message mt-4 p-3 bg-red-100 text-red-700 border border-red-400 rounded-md'>Error inserting the code</div>";
+                        }
                     }
                 }
             }
-        }
         ?>
     </div>
 </body>

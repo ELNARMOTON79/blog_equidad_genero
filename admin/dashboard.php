@@ -828,7 +828,7 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
                                 </div>
                                 <div class='mb-4'>
                                     <label id='contra' class='block text-primary font-bold mb-2'>Password</label>
-                                    <input type='password' name='password' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='$password' required>
+                                    <input type='password' name='password' class='bg-tertiary border border-primary rounded w-full py-2 px-3 text-primary leading-tight focus:outline-none focus:shadow-outline' value='' required>
                                 </div>
                                 <div class='mb-4'>
                                     <label id='email' class='block text-primary font-bold mb-2'>Email</label>
