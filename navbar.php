@@ -26,16 +26,16 @@ session_start();
             <button onclick="toggleDropdown()" class="bg-purple-400 hover:bg-purple-300 px-3 py-2 rounded text-black">Manage</button>
                 <div id="dropdown" class="dropdown-menu">
                     <?php if (isset($_SESSION['type_user']) && $_SESSION['type_user'] == 0): ?>
-                        <a href="admin/dashboard.php">Admin Dashboard</a>
+                        <a class="rounded-lg" href="admin/dashboard.php">Admin Dashboard</a>
                     <?php else: ?>
-                        <a href="user/dashboard.php">User Dashboard</a>
+                        <a class="rounded-lg" href="user/dashboard.php">User Dashboard</a>
                     <?php endif; ?>
-                    <a href="logins/logout.php">Log Out</a>
+                    <a class="rounded-lg" href="logins/logout.php">Log Out</a>
                 </div>
             </div>
         <?php else: ?>
             <div class="relative">
-                <button class="bg-teal-500 hover:bg-teal-600 px-3 py-2 rounded text-white"><a href="logins/login.php">Login</a></button>
+                <button class="bg-purple-400 hover:bg-purple-300 px-3 py-2 rounded text-black"><a href="logins/login.php">Login</a></button>
             </div>
         <?php endif; ?>
     </div>

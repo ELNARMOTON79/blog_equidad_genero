@@ -24,6 +24,7 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Administrador</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -247,10 +248,7 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
                                         echo "<td class='py-2 px-4 border-b border-primary text-primary'>".$row['name']."</td>";
                                         echo "<td class='py-2 px-4 border-b border-primary text-primary'>".($row['type_user'] == 0 ? 'Administrador' : 'Usuario')."</td>";
                                         echo "<td class='py-2 px-4 border-b border-primary text-primary'>
-                                                <form method='POST' target='deleteFrame' onsubmit='return confirmDelete(".$row['id'].")'>
-                                                    <input type='hidden' name='id_usuario' value='".$row['id']."'>
-                                                    <button type='submit' name='delete_user' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Delete</button>
-                                                </form>
+                                                <button onclick='confirmDelete(".$row['id'].")' class='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Delete</button>
                                             </td>";
                                         echo "</tr>";
                                     }
@@ -277,18 +275,50 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
                             successMessage.style.display = 'none';
                         }
                     }, 5000);
-                </script>
-                <script>
+
                     function confirmDelete(id) {
-                        if (confirm('Are you sure you want to delete this user?')) {
-                            // Si el usuario confirma, eliminamos la fila de la tabla
-                            document.getElementById('usuario-' + id).style.display = 'none';
-                            return true;
-                        }
-                        return false;
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, delete it!',
+                            cancelButtonText: 'Cancel'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                var form = document.createElement("form");
+                                form.setAttribute("method", "post");
+                                form.setAttribute("target", "deleteFrame");
+
+                                var input = document.createElement("input");
+                                input.setAttribute("type", "hidden");
+                                input.setAttribute("name", "id_usuario");
+                                input.setAttribute("value", id);
+                                form.appendChild(input);
+
+                                var deleteInput = document.createElement("input");
+                                deleteInput.setAttribute("type", "hidden");
+                                deleteInput.setAttribute("name", "delete_user");
+                                deleteInput.setAttribute("value", "delete_user");
+                                form.appendChild(deleteInput);
+
+                                document.body.appendChild(form);
+                                form.submit();
+                                document.body.removeChild(form);
+
+                                Swal.fire(
+                                    'Deleted!',
+                                    'User has been deleted.',
+                                    'success'
+                                )
+                            }
+                        })
                     }
                 </script>
             <?php endif; ?>
+
 
             <?php if ($showForm3): ?>
             <div class="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
