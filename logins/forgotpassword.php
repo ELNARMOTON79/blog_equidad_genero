@@ -40,6 +40,7 @@ include ("codegen.php");
             </svg>
         </a>
         <h2 class="text-3xl font-extrabold mb-6 text-center text-primary">Forgot Password</h2>
+        <h3 class="text-xl font-extrabold mb-6 text-center text-primary">Enter the email of the account you want to reset password</h3>
         <form action="#" method="post">
             <div class="mb-5">
                 <label for="email" class="block text-lg font-semibold text-secondary">E-mail</label>
