@@ -23,7 +23,7 @@ session_start();
         <a href="about.php" class="<?php if($pagina_actual == "about.php") echo 'active'; ?> hover:bg-custom-hover px-3 py-2 rounded">About</a>
         <?php if (isset($_SESSION['user'])): ?>
             <div class="relative">
-                <button onclick="toggleDropdown()" class="bg-teal-500 hover:bg-teal-600 px-3 py-2 rounded text-white">Manage</button>
+            <button onclick="toggleDropdown()" class="bg-purple-400 hover:bg-purple-300 px-3 py-2 rounded text-black">Manage</button>
                 <div id="dropdown" class="dropdown-menu">
                     <?php if (isset($_SESSION['type_user']) && $_SESSION['type_user'] == 0): ?>
                         <a href="admin/dashboard.php">Admin Dashboard</a>

@@ -798,6 +798,7 @@ $showForm9 = isset($_GET['action']) && $_GET['action'] == 'userList';
                             $nombre = isset($_POST["names"]) ? $_POST["names"] : '';
                             $password = isset($_POST["password"]) ? $_POST["password"] : '';
                             $email = isset($_POST["correo"]) ? $_POST["correo"] : '';
+                            $password = password_hash($password, PASSWORD_BCRYPT, ["cost"=>10]);
 
                             $result = $contacto->actualizarUsuario($id, $nombre, $password, $email);
                             echo "<div id='success-message' class='bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4' role='alert'>User updated correctly</div>";
